@@ -27,4 +27,30 @@ describe('Films', () => {
                 done()
             })
     })
+
+    it('should get a single film', (done) => {
+        chai.request(server)
+            .get('/films/1')
+            .end((err, res) => {
+                const expected =
+                    {
+                        id: 1,
+                        title: 'The Shawshank Redemption',
+                        year: 1994
+                    }
+
+                res.body.should.eql(expected)
+                res.status.should.eql(200)
+                done()
+            })
+    })
+
+    it('should return not found for an invalid id', (done) => {
+        chai.request(server)
+            .get('/films/999')
+            .end((err, res) => {
+                res.status.should.eql(404)
+                done()
+            })
+    })
 })
